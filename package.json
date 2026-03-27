@@ -1,15 +1,32 @@
 {
-  "name": "${PROJECT_NAME}",
+  "name": "roomify",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
+  },
+  "dependencies": {
+    "@heyputer/puter.js": "^2.2.14",
+    "@react-router/node": "7.13.2",
+    "@react-router/serve": "7.13.2",
+    "isbot": "^5.1.36",
+    "lucide-react": "^1.6.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router": "7.13.2"
   },
   "devDependencies": {
-    "prettier": "^3.3.1",
-    "vite": "^5.1.6"
+    "@react-router/dev": "7.13.2",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^22",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.7",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

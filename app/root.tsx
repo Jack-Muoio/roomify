@@ -12,7 +12,6 @@ import "./app.css";
 import { useEffect, useState } from "react";
 import {signOut as puterSignOut, signIn as puterSignIn} from "../lib/puter.action";
 import puter from "@heyputer/puter.js";
-import {runMain} from "node:module";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -49,7 +48,7 @@ const DEFAULT_AUTH_STATE: AuthState = {
   isSignedIn: false,
   userName: null,
   userId: null,
-}
+};
 
 export default function App() {
   const [authState, setAuthState] = useState <AuthState>(DEFAULT_AUTH_STATE)
@@ -67,6 +66,7 @@ export default function App() {
       return false
     }
   }
+
   useEffect(() => {
     refreshAuth()
   }, [])

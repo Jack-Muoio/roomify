@@ -24,6 +24,13 @@ Install the dependencies:
 npm install
 ```
 
+### Environment Setup
+1. Copy the example environment variables:
+```bash
+cp .env.example .env.local
+```
+2. Update the `.env.local` file with your specific values, such as your `VITE_PUTER_WORKER_URL`.
+
 ### Development
 
 Start the development server with HMR:

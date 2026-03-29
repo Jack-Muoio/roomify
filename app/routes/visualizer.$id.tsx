@@ -1,10 +1,9 @@
-import { useLocation, useNavigate, useOutletContext, useParams } from "react-router";
-import isInsideContainer from "is-inside-container";
+import { useNavigate, useOutletContext, useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { generate3DView } from "../../lib/ai.action";
 import { Box, Download, RefreshCcw, Share2, X } from "lucide-react";
 import Button from "../../components/ui/Button";
-import { createProject, getProjectById } from "../../lib/puter.action";
+import { createProject, getProjectById, shareProject, unshareProject } from "../../lib/puter.action";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
 
 const VisualizerId = () => {
@@ -19,6 +18,8 @@ const VisualizerId = () => {
 
   const [isProcessing, setIsProcessing] = useState(false)
   const [currentImage, setCurrentImage] = useState<string | null>(null)
+  
+  const [isSharing, setIsSharing] = useState(false)
 
   const handleBack = () => navigate('/')
 
@@ -65,6 +66,29 @@ const VisualizerId = () => {
     link.click();
     document.body.removeChild(link);
   };
+  
+  const handleToggleShare = async () => {
+    if (!project || !id) return;
+    
+    setIsSharing(true);
+    try {
+      if (project.isPublic) {
+        const updated = await unshareProject(id);
+        if (updated) {
+          setProject((prev) => prev ? { ...prev, isPublic: false } : prev);
+        }
+      } else {
+        const updated = await shareProject(id);
+        if (updated) {
+          setProject((prev) => prev ? { ...prev, isPublic: true } : prev);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to toggle share state", error);
+    } finally {
+      setIsSharing(false);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -87,7 +111,7 @@ const VisualizerId = () => {
       hasInitialGenerated.current = false;
     };
 
-    loadProject();
+    void loadProject();
 
     return () => {
       isMounted = false;
@@ -141,8 +165,14 @@ const VisualizerId = () => {
               >
                 <Download className="w-4 h-4 mr-2" /> Export
               </Button>
-              <Button size="sm" onClick={() => {}} className="share">
-                <Share2 className="w-4 h-4 mr-2" /> Share
+              <Button 
+                size="sm" 
+                onClick={handleToggleShare} 
+                className={project?.isPublic ? "share btn--outline" : "share"}
+                disabled={isSharing || !project}
+              >
+                <Share2 className="w-4 h-4 mr-2" /> 
+                {isSharing ? 'Updating...' : project?.isPublic ? 'Unshare' : 'Share'}
               </Button>
             </div>
           </div>

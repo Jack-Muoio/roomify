@@ -22,6 +22,11 @@ const Navbar = () => {
     }
   }
 
+  const handleNotImplemented = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    alert("This feature has not been implemented yet.");
+  };
+
   return (
     <header className="navbar">
       <nav className="inner">
@@ -32,9 +37,9 @@ const Navbar = () => {
           </div>
           <ul className="links">
             <a href="#">Product</a>
-            <a href="#">Pricing</a>
-            <a href="#">Community</a>
-            <a href="#">Enterprise</a>
+            <a href="#" onClick={handleNotImplemented}>Pricing</a>
+            <a href="#" onClick={handleNotImplemented}>Community</a>
+            <a href="#" onClick={handleNotImplemented}>Enterprise</a>
           </ul>
         </div>
         <div className="actions">

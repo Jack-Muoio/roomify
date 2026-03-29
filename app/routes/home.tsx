@@ -105,12 +105,12 @@ export default function Home() {
               </div>
             </div>
             <div className="projects-grid">
-              {projects.map(({id, name, renderedImage, sourceImage, timestamp}) => (
+              {projects.map(({id, name, renderedImage, sourceImage, timestamp, isPublic}) => (
               <div key={id} className="project-card group" onClick={() => navigate(`/visualizer/${id}`)}>
                 <div className="preview">
                   <img src={renderedImage || sourceImage} alt="Project" />
                   <div className="badge">
-                    <span>Community</span>
+                    <span>{isPublic ? 'Community' : 'Private'}</span>
                   </div>
                 </div>
                 <div className="card-body">

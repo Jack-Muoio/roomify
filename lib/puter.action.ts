@@ -142,3 +142,53 @@ export const getProjectById = async ({ id }: { id: string }) => {
     return null;
   }
 };
+
+export const shareProject = async (id: string): Promise<DesignItem | null> => {
+  if (!PUTER_WORKER_URL) return null;
+  
+  try {
+    const response = await puter.workers.exec(
+      `${PUTER_WORKER_URL}/api/projects/share`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      }
+    );
+    
+    if (!response.ok) {
+        console.error("Failed to share project:", await response.text());
+        return null;
+    }
+    const data = await response.json() as { project?: DesignItem | null };
+    return data.project || null;
+  } catch (error) {
+    console.error("Failed to share project:", error);
+    return null;
+  }
+};
+
+export const unshareProject = async (id: string): Promise<DesignItem | null> => {
+  if (!PUTER_WORKER_URL) return null;
+  
+  try {
+    const response = await puter.workers.exec(
+      `${PUTER_WORKER_URL}/api/projects/unshare`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      }
+    );
+    
+    if (!response.ok) {
+        console.error("Failed to unshare project:", await response.text());
+        return null;
+    }
+    const data = await response.json() as { project?: DesignItem | null };
+    return data.project || null;
+  } catch (error) {
+    console.error("Failed to unshare project:", error);
+    return null;
+  }
+};
